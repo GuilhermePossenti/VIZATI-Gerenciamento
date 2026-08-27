@@ -161,8 +161,8 @@ npm run build
 
 | Login | Senha | Perfil |
 |---|---|---|
-| `tecnico` | `ti123` | Guilherme Possenti — Assistente de TI |
-| `gestor` | `ti123` | Guilherme Bridi — Gestor de TI |
+| `tecnico` | `ti123` | Guilherme P — Assistente de TI |
+| `gestor` | `ti123` | Guilherme B — Gestor de TI |
 | `admin` | `admin123` | Administrador |
 
 ---
