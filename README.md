@@ -1,46 +1,65 @@
-# Viza TI — Gestão de Estoque de Equipamentos
+# SUPERVIZA TI — Gestão de Estoque de Equipamentos
 
-Sistema web para organização e acompanhamento do estoque de equipamentos de TI da Viza TI.
+Sistema web para controlar equipamentos de TI, movimentações de estoque, chamados técnicos e necessidades de compra da SUPERVIZA TI.
 
-O projeto foi desenvolvido para sanar o problema de controle de estoque e dar à diretoria e ao setor de compras uma visão clara do que está disponível, do que está em falta e do que precisa ser comprado. Assim, as decisões de reposição podem ser tomadas com base nas quantidades registradas no sistema.
+O projeto foi desenvolvido para resolver a dificuldade de controle de estoque e entregar à diretoria e ao setor de compras uma visão objetiva do que está disponível, do que está em falta e do que precisa ser adquirido.
 
 ---
 
 ## Objetivo
 
-A Viza TI centraliza as informações dos ativos e suprimentos de tecnologia em um único painel. Com ela, a operação consegue:
+Centralizar as informações de ativos, suprimentos e atendimentos técnicos em um único painel. Com o sistema, a operação consegue:
 
-- Registrar equipamentos e suas quantidades em estoque;
-- Identificar materiais sem estoque ou com quantidade baixa;
-- Consultar a relação de itens que precisam de atenção;
-- Abrir e acompanhar chamados técnicos para lojas;
-- Apoiar a diretoria e o setor de compras no planejamento de reposições.
+- Cadastrar equipamentos com código automático, patrimônio, número de série e garantia;
+- Registrar entradas e saídas de materiais;
+- Identificar itens com estoque baixo ou zerado;
+- Consultar o histórico de movimentações, com responsável, data e quantidade;
+- Abrir, concluir e, conforme o perfil, reabrir chamados técnicos para as lojas;
+- Gerar relatórios para a diretoria e o setor de compras.
 
 ---
 
 ## Visão para diretoria e compras
 
-O painel inicial mostra os principais indicadores da operação: quantidade de itens cadastrados, chamados em aberto e alertas de estoque. A área **Atenção no estoque** apresenta uma amostra dos itens críticos e direciona para a lista completa.
-
-Um item entra em atenção quando possui menos de **3 unidades**. Dessa forma, a diretoria e o setor de compras podem consultar rapidamente quais produtos precisam ser adquiridos, como fontes, periféricos, cabos, monitores, impressoras e equipamentos de rede.
+O painel inicial apresenta indicadores do estoque, equipamentos cadastrados, chamados em aberto e alertas. A área **Atenção no estoque** mostra os itens críticos e direciona para a lista completa.
 
 | Situação | Critério | Ação recomendada |
 |---|---:|---|
-| Disponível | Quantidade acima do mínimo | Acompanhamento normal |
-| Estoque baixo | Quantidade igual ou inferior ao mínimo cadastrado | Avaliar reposição |
+| Disponível | Quantidade acima do mínimo cadastrado | Acompanhamento normal |
+| Estoque baixo | Quantidade acima de zero e igual ou inferior ao mínimo | Avaliar reposição |
 | Sem estoque | Quantidade igual a zero | Priorizar compra |
 | Em atenção | Menos de 3 unidades | Incluir no planejamento de compras |
+
+Os relatórios consolidados podem ser exportados em **Excel** ou **PDF**, contendo itens sem estoque, itens com estoque baixo e chamados agrupados por loja.
 
 ---
 
 ## Funcionalidades
 
-- **Login** — Acesso ao sistema com sessão local persistida no navegador.
-- **Visão geral** — Indicadores do estoque, chamados recentes e alertas de materiais críticos.
-- **Equipamentos** — Cadastro, consulta e busca de equipamentos por código, nome ou categoria.
-- **Controle de estoque** — Visualização das quantidades, locais e status de cada item.
-- **Estoque em atenção** — Relação completa dos itens com menos de 3 unidades para apoio às compras.
-- **Chamados técnicos** — Registro de técnico, cargo, código, loja de destino, descrição, prioridade, data de abertura e data de conclusão.
+- **Login protegido** — O sistema inicia na tela de login. As páginas internas exigem uma sessão ativa.
+- **Visão geral** — Indicadores, chamados recentes e alertas de estoque.
+- **Equipamentos** — Cadastro com código automático, busca por nome ou código e filtros por situação de estoque. Cada equipamento pode ter patrimônio, número de série e garantia.
+- **Controle de estoque** — Registro de entradas e saídas, saldo atual e identificação automática de itens críticos.
+- **Histórico de movimentações** — Registra quem movimentou, tipo de operação, data, quantidade e saldo antes/depois. Disponível para Administrador, Gestor e Analista.
+- **Estoque em atenção** — Lista completa de itens com menos de 3 unidades.
+- **Chamados técnicos** — Código sequencial automático, técnico logado preenchido automaticamente, loja de destino, prioridade, data de abertura, conclusão e reabertura conforme permissão.
+- **Lojas** — Cadastro, alteração e exclusão de lojas para uso nos chamados.
+- **Usuários** — Cadastro, alteração e exclusão de usuários de acordo com o perfil de acesso.
+- **Relatórios** — Exportação de dados em Excel e PDF para diretoria e compras.
+
+---
+
+## Perfis e permissões
+
+| Perfil | Pode criar e alterar usuários | Pode consultar histórico e relatórios | Pode reabrir chamados de |
+|---|---|---|---|
+| Administrador | Todos os cargos | Sim | Todos |
+| Gestor de TI | Analista, Técnico, Assistente, Estagiário e Menor Aprendiz | Sim | Analista, Técnico, Assistente, Estagiário e Menor Aprendiz |
+| Analista de TI | Técnico, Assistente, Estagiário e Menor Aprendiz | Sim | Técnico, Assistente, Estagiário e Menor Aprendiz |
+| Técnico de TI | Assistente, Estagiário e Menor Aprendiz | Não | Assistente, Estagiário e Menor Aprendiz |
+| Assistente, Estagiário e Menor Aprendiz | Não | Não | Não |
+
+Administrador, Gestor e Analista também podem criar, alterar e excluir lojas.
 
 ---
 
@@ -49,11 +68,11 @@ Um item entra em atenção quando possui menos de **3 unidades**. Dessa forma, a
 ```text
 Cadastro de equipamentos
         ↓
-Atualização das quantidades em estoque
+Entradas e saídas registradas no estoque
         ↓
 Identificação automática de itens críticos
         ↓
-Diretoria e Compras consultam "Estoque em atenção"
+Histórico e relatórios para Diretoria e Compras
         ↓
 Planejamento e realização das compras
 ```
@@ -67,10 +86,14 @@ src/
 ├── app/
 │   ├── (app)/
 │   │   ├── dashboard/          # Painel principal
-│   │   ├── equipamentos/       # Cadastro e consulta de equipamentos
+│   │   ├── equipamentos/       # Cadastro, busca e filtros de equipamentos
 │   │   ├── estoque/             # Controle de estoque
-│   │   │   └── atencao/         # Itens com estoque crítico
+│   │   │   ├── atencao/         # Itens com estoque crítico
+│   │   │   └── historico/       # Histórico de movimentações
 │   │   ├── chamados/            # Abertura e gestão de chamados
+│   │   ├── lojas/               # Gestão de lojas
+│   │   ├── usuarios/            # Gestão de usuários
+│   │   ├── relatorios/          # Relatórios e exportações
 │   │   └── layout.js            # Rotas protegidas e estrutura da aplicação
 │   ├── page.js                  # Tela de login
 │   └── globals.css              # Estilos globais e tokens visuais
@@ -78,11 +101,11 @@ src/
 │   ├── layout/                  # Menu lateral e cabeçalho
 │   └── ui/                      # Componentes reutilizáveis
 ├── context/
-│   └── AuthContext.js           # Autenticação e sessão local
+│   └── AuthContext.js           # Autenticação, usuários e sessão local
 ├── lib/
 │   └── appPath.js               # Caminho base para desenvolvimento e publicação
 └── services/
-    └── inventoryStore.js        # Persistência local de estoque e chamados
+    └── inventoryStore.js        # Persistência local de estoque, lojas e chamados
 ```
 
 ---
@@ -93,26 +116,34 @@ src/
 - **React 19**
 - **Tailwind CSS 4** e **CSS Modules**
 - **Lucide React** para ícones
-- **localStorage** para persistência dos dados de demonstração no navegador
+- **SheetJS (xlsx)** para exportação Excel
+- **jsPDF** e **jsPDF-AutoTable** para exportação PDF
+- **localStorage** e **sessionStorage** para persistência local da demonstração
 
 ---
 
 ## Instalação e execução
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/GuilhermePossenti/VIZATI-Gerenciamento.git
 cd VIZATI-Gerenciamento
 npm install
 npm run dev
 ```
 
-Por padrão, o Next.js inicia em `http://localhost:3000`. Caso essa porta esteja ocupada, informe outra porta:
+Com o servidor iniciado, acesse:
+
+```text
+http://localhost:3000/VIZATI-Gerenciamento/
+```
+
+Se a porta 3000 estiver ocupada, use outra porta:
 
 ```bash
 npm run dev -- -p 3010
 ```
 
-No ambiente local, acesse:
+Então acesse:
 
 ```text
 http://localhost:3010/VIZATI-Gerenciamento/
@@ -142,13 +173,19 @@ npm run build
 |---|---|
 | `/` | Login |
 | `/dashboard` | Visão geral e indicadores |
-| `/equipamentos` | Cadastro e busca de equipamentos |
+| `/equipamentos` | Cadastro, busca e filtros de equipamentos |
 | `/estoque` | Controle de estoque |
 | `/estoque/atencao` | Itens com menos de 3 unidades |
+| `/estoque/historico` | Histórico de entradas e saídas |
 | `/chamados` | Chamados técnicos |
+| `/lojas` | Gestão de lojas |
+| `/usuarios` | Gestão de usuários |
+| `/relatorios` | Relatórios para diretoria e compras |
 
 ---
 
 ## Observação sobre os dados
 
-Esta versão utiliza dados locais no navegador para demonstração. Para uso corporativo com vários usuários simultâneos, recomenda-se integrar uma API e um banco de dados centralizado, permitindo que diretoria, compras e equipe técnica visualizem sempre as mesmas informações atualizadas.
+Esta versão armazena os dados no navegador do usuário. Equipamentos, chamados, lojas, usuários e movimentações ficam salvos localmente no dispositivo e não são compartilhados entre navegadores ou computadores.
+
+Para utilização corporativa com múltiplos usuários simultâneos, o próximo passo recomendado é integrar uma API e um banco de dados centralizado, com autenticação segura e controle de acesso no servidor.
