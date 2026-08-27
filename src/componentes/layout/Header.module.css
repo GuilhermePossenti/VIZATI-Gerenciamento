@@ -1,0 +1,57 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: var(--sidebar-w);
+  right: 0;
+  height: var(--header-h);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 90;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  font-size: 13px;
+}
+.crumbHome {
+  color: var(--text-muted);
+  font-weight: 500;
+  transition: color .15s;
+}
+.crumbHome:hover { color: var(--primary); }
+.crumbItem {
+  display: flex;
+  align-items: center;
+}
+.sep {
+  margin: 0 6px;
+  color: var(--text-muted);
+  font-size: 15px;
+}
+.crumbAtual {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  background: var(--primary-light);
+  color: var(--primary-text);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
