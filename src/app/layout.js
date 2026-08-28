@@ -2,7 +2,7 @@ import './globals.css';
 import { AuthProvider } from '../context/AuthContext';
 
 export const metadata = {
-  title: 'Viza TI — Gestão de Equipamentos',
+  title: 'SUPERVIZA TI — Gestão de Equipamentos',
   description: 'Controle de estoque, equipamentos e chamados de TI',
 };
 

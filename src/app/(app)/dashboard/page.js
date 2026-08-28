@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Headset, Laptop, Package, TriangleAlert } from 'lucide-react';
 import { EQUIPAMENTOS_INICIAIS, CHAMADOS_INICIAIS, carregar } from '../../../services/inventoryStore';
+import { useAuth } from '../../../context/AuthContext';
 
 export default function Dashboard() {
+  const { user } = useAuth();
   const [equipamentos, setEquipamentos] = useState(EQUIPAMENTOS_INICIAIS);
   const [chamados, setChamados] = useState(CHAMADOS_INICIAIS);
 
@@ -23,7 +25,7 @@ export default function Dashboard() {
       <div className="flex flex-wrap items-start gap-4">
         <div>
           <p className="mb-1 text-[11px] font-extrabold tracking-[1.4px] text-brand-dark">CENTRAL DE OPERAÇÕES</p>
-          <h1 className="text-2xl font-bold text-app-text">Visão geral</h1>
+          <h1 className="text-2xl font-bold text-app-text">Bem-vindo, {user?.nome || 'usuário'}!</h1>
           <p className="mt-0.5 text-sm text-app-muted">Acompanhe equipamentos, estoque e atendimentos em um só lugar.</p>
         </div>
         <div className="flex gap-2 sm:absolute sm:right-0 sm:top-0">

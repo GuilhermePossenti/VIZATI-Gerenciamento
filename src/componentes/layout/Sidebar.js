@@ -39,7 +39,7 @@ export default function Sidebar() {
           <img className="size-8 object-contain" src={`${appBasePath}/logo.png`} alt="" />
         </div>
         <div className="flex flex-col">
-          <span className="text-base font-extrabold tracking-[.2px] text-white">Viza TI</span>
+          <span className="text-base font-extrabold tracking-[.2px] text-white">SUPERVIZA TI</span>
           <span className="text-[11px] font-medium tracking-[.2px] text-slate-300">Gestão de equipamentos</span>
         </div>
       </div>

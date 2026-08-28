@@ -45,19 +45,19 @@ export default function Relatorios() {
     criarAba('Sem estoque', relatorio.semEstoque.map((item) => ({ Código: item.codigo, Equipamento: item.nome, Local: item.local, Quantidade: item.quantidade, Mínimo: item.minimo })));
     criarAba('Estoque baixo', relatorio.estoqueBaixo.map((item) => ({ Código: item.codigo, Equipamento: item.nome, Local: item.local, Quantidade: item.quantidade, Mínimo: item.minimo })));
     criarAba('Chamados por loja', relatorio.chamadosPorLoja.map((item) => ({ Loja: item.loja, Total: item.total, Abertos: item.abertos, Concluídos: item.concluidos })));
-    XLSX.writeFile(workbook, 'relatorio-viza-ti.xlsx');
+    XLSX.writeFile(workbook, 'relatorio-superviza-ti.xlsx');
   };
 
   const exportarPdf = () => {
     const documento = new jsPDF({ orientation: 'landscape' });
     documento.setFontSize(18);
-    documento.text('Viza TI - Relatório de estoque e chamados', 14, 16);
+    documento.text('SUPERVIZA TI - Relatório de estoque e chamados', 14, 16);
     documento.setFontSize(10);
     documento.text(`Emitido em ${new Date().toLocaleDateString('pt-BR')}`, 14, 23);
     autoTable(documento, { startY: 30, head: [['Itens sem estoque', 'Código', 'Local']], body: relatorio.semEstoque.map((item) => [item.nome, item.codigo, item.local]) });
     autoTable(documento, { startY: documento.lastAutoTable.finalY + 10, head: [['Itens com estoque baixo', 'Código', 'Qtd.', 'Mínimo']], body: relatorio.estoqueBaixo.map((item) => [item.nome, item.codigo, item.quantidade, item.minimo]) });
     autoTable(documento, { startY: documento.lastAutoTable.finalY + 10, head: [['Loja', 'Total de chamados', 'Abertos', 'Concluídos']], body: relatorio.chamadosPorLoja.map((item) => [item.loja, item.total, item.abertos, item.concluidos]) });
-    documento.save('relatorio-viza-ti.pdf');
+    documento.save('relatorio-superviza-ti.pdf');
   };
 
   return <div className={styles.pagina}>
