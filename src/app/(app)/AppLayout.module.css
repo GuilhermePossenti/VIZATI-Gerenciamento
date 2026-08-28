@@ -20,5 +20,6 @@
 }
 
 @media (max-width: 700px) {
+  .mainArea { margin-left: 0; }
   .conteudo { padding: 24px 16px 36px; }
 }

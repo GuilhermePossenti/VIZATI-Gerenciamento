@@ -16,7 +16,6 @@ const equipamentoVazio = {
   quantidade: 0,
   minimo: 1,
   local: "Matriz",
-  patrimonio: "",
   numeroSerie: "",
   garantia: "",
 };
@@ -234,7 +233,6 @@ export default function Estoque() {
               <tr>
                 <th>Código</th>
                 <th>Equipamento</th>
-                <th>Patrimônio</th>
                 <th>Nº de série</th>
                 <th>Garantia</th>
                 <th>Local</th>
@@ -257,7 +255,6 @@ export default function Estoque() {
                         {equipamento.categoria}
                       </span>
                     </td>
-                    <td>{equipamento.patrimonio || "—"}</td>
                     <td>{equipamento.numeroSerie || "—"}</td>
                     <td>{equipamento.garantia || "—"}</td>
                     <td>{equipamento.local}</td>
@@ -334,15 +331,7 @@ export default function Estoque() {
               set={(local) => setFormEquipamento({ ...formEquipamento, local })}
             />
             <Campo
-              label="Patrimônio"
-              value={formEquipamento.patrimonio}
-              opcional
-              set={(patrimonio) =>
-                setFormEquipamento({ ...formEquipamento, patrimonio })
-              }
-            />
-            <Campo
-              label="Número de série"
+              label="Número de série (opcional)"
               value={formEquipamento.numeroSerie}
               opcional
               set={(numeroSerie) =>

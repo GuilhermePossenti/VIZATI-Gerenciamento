@@ -1,0 +1,14 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/favicon.ico/route": "/favicon.ico",
+  "/login/page": "/login",
+  "/singup/page": "/singup",
+  "/page": "/",
+  "/(app)/dashboard/page": "/dashboard",
+  "/(app)/estoque/page": "/estoque",
+  "/(app)/chamados/page": "/chamados",
+  "/(app)/equipamentos/page": "/equipamentos",
+  "/(app)/alunos/page": "/alunos",
+  "/(app)/faltas/page": "/faltas",
+  "/(app)/relatorios/page": "/relatorios"
+}

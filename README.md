@@ -10,7 +10,7 @@ O projeto foi desenvolvido para resolver a dificuldade de controle de estoque e 
 
 Centralizar as informações de ativos, suprimentos e atendimentos técnicos em um único painel. Com o sistema, a operação consegue:
 
-- Cadastrar equipamentos com código automático, patrimônio, número de série e garantia;
+- Cadastrar equipamentos com código automático, número de série opcional e garantia;
 - Registrar entradas e saídas de materiais;
 - Identificar itens com estoque baixo ou zerado;
 - Consultar o histórico de movimentações, com responsável, data e quantidade;
@@ -38,7 +38,7 @@ Os relatórios consolidados podem ser exportados em **Excel** ou **PDF**, conten
 
 - **Login protegido** — O sistema inicia na tela de login. As páginas internas exigem uma sessão ativa.
 - **Visão geral** — Indicadores, chamados recentes e alertas de estoque.
-- **Equipamentos** — Cadastro com código automático, busca por nome ou código e filtros por situação de estoque. Cada equipamento pode ter patrimônio, número de série e garantia.
+- **Equipamentos** — Cadastro com código automático, busca por nome ou código e filtros por situação de estoque. O número de série é opcional e pode ser informado para itens individualizados.
 - **Controle de estoque** — Registro de entradas e saídas, saldo atual e identificação automática de itens críticos.
 - **Histórico de movimentações** — Registra quem movimentou, tipo de operação, data, quantidade e saldo antes/depois. Disponível para Administrador, Gestor e Analista.
 - **Estoque em atenção** — Lista completa de itens com menos de 3 unidades.

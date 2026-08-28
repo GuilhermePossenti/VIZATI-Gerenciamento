@@ -3,9 +3,10 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Boxes, FileChartColumn, LayoutDashboard, LogOut, MapPinPlus, TicketCheck, UsersRound } from 'lucide-react';
+import { Boxes, FileChartColumn, LayoutDashboard, LogOut, MapPinPlus, Menu, TicketCheck, UsersRound, X } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { appBasePath } from '../../lib/appPath';
+import mobileStyles from './Sidebar.module.css';
 
 const NAV = [
   { href: '/dashboard', label: 'Visão geral', Icon: LayoutDashboard },
@@ -18,6 +19,7 @@ export default function Sidebar() {
   const { user, logout, cargosGerenciaveis } = useAuth();
   const router = useRouter();
   const [perfilAberto, setPerfilAberto] = useState(false);
+  const [menuAberto, setMenuAberto] = useState(false);
   const podeGerenciarLojas = ['Gestor de TI', 'Administrador', 'Analista de TI'].includes(user?.cargo);
   const podeVerRelatorios = ['Gestor de TI', 'Administrador', 'Analista de TI'].includes(user?.cargo);
   const navegacao = [...NAV,
@@ -32,7 +34,12 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-100 flex w-[var(--sidebar-w)] flex-col overflow-hidden border-r border-white/10 bg-[#0d100d] shadow-[6px_0_24px_rgba(0,0,0,.16)]">
+    <>
+      <button type="button" className={mobileStyles.menuToggle} onClick={() => setMenuAberto((aberto) => !aberto)} aria-label={menuAberto ? 'Fechar menu' : 'Abrir menu'} aria-expanded={menuAberto}>
+        {menuAberto ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
+      </button>
+      {menuAberto && <button type="button" className={mobileStyles.fundoMenu} onClick={() => setMenuAberto(false)} aria-label="Fechar menu" />}
+      <aside className={`${mobileStyles.sidebar} ${menuAberto ? mobileStyles.sidebarAberta : ''} fixed inset-y-0 left-0 z-100 flex w-[var(--sidebar-w)] flex-col overflow-hidden border-r border-white/10 bg-[#0d100d] shadow-[6px_0_24px_rgba(0,0,0,.16)]`}>
       <div className="flex shrink-0 items-center gap-3 border-b border-white/10 bg-[#111511] px-5 py-5">
         <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#1a2017] shadow-sm ring-1 ring-white/10">
           <img className="size-8 object-contain" src={`${appBasePath}/logo.png`} alt="" />
@@ -52,6 +59,7 @@ export default function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={() => setMenuAberto(false)}
               className={ativo
                 ? 'relative flex min-h-13 items-center justify-center rounded-xl px-3 py-2.5 text-sm font-bold text-white bg-[#708d00] shadow-[inset_3px_0_0_#c8f40a,0_8px_20px_rgba(112,141,0,.18)] transition-all'
                 : 'relative flex min-h-13 items-center justify-center rounded-xl px-3 py-2.5 text-sm font-semibold text-white transition-all hover:bg-white/10 hover:shadow-sm'}
@@ -78,6 +86,7 @@ export default function Sidebar() {
           </div>
         </button>
       </div>
-    </aside>
+      </aside>
+    </>
   );
 }
