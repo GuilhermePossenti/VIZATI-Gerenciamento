@@ -1,33 +1,234 @@
-.pagina{display:flex;flex-direction:column;gap:28px;width:min(100%,1360px);margin-inline:auto}
-.cabecalho{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.titulo{font-size:24px;font-weight:750}
-.subtitulo{color:var(--text-muted);margin-top:3px}
-.filtros{display:flex;gap:12px;flex-wrap:wrap}
-.filtros>*{flex:1 1 180px}
-.modalOverlay{position:fixed;inset:0;background:rgba(3,5,3,.72);z-index:300;display:grid;place-items:center;padding:20px}
-.modal{width:min(680px,100%);max-height:90vh;overflow:auto;background:var(--surface);border-radius:14px;box-shadow:0 28px 80px rgba(0,0,0,.35)}
-.modalHeader{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.modalBody{padding:24px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.full{grid-column:1/-1}
-.acoes{display:flex;justify-content:flex-end;gap:8px;margin-top:24px}
-.toast{padding:11px 14px;background:var(--success-light);color:var(--success);border-radius:7px;font-weight:600}
-.quantidade{display:inline-flex;min-width:36px;justify-content:center;padding:3px 8px;border-radius:6px;background:#edf2e3;font-weight:750}
-.ajustes{display:flex;gap:5px}
-.resumo{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.resumoItem{min-height:112px;background:var(--surface);border:1px solid var(--border);padding:22px 24px;border-radius:10px;display:flex;flex-direction:column;justify-content:center;gap:6px}
-.resumoItem strong{font-size:24px}
-.resumoItem span{color:var(--text-muted);font-size:12px}
-.listaAtencao{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.itemAtencao{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px;background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--warning);border-radius:10px;box-shadow:var(--shadow-sm)}
-.itemAtencao h2{font-size:15px;margin:3px 0}
-.itemAtencao p{font-size:12px;color:var(--text-muted)}
-.codigoAtencao{font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--primary-text)}
-.saldoAtencao{min-width:62px;text-align:center;padding:9px;background:var(--warning-light);color:var(--warning);border-radius:8px;display:flex;flex-direction:column}
-.saldoAtencao strong{font-size:22px;line-height:1}
-.saldoAtencao span{font-size:10px;margin-top:3px}
-@media(max-width:650px){.grid,.resumo,.listaAtencao{grid-template-columns:1fr}
-.full{grid-column:auto}
+.pagina {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    width: min(100%, 1360px);
+    margin-inline: auto
 }
 
+.cabecalho {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap
+}
 
+.titulo {
+    font-size: 24px;
+    font-weight: 750
+}
+
+.subtitulo {
+    color: var(--text-muted);
+    margin-top: 3px
+}
+
+.filtros {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap
+}
+
+.filtros>* {
+    flex: 1 1 180px
+}
+
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 5, 3, .72);
+    z-index: 300;
+    display: grid;
+    place-items: center;
+    padding: 20px
+}
+
+.modal {
+    width: min(680px, 100%);
+    max-height: 90vh;
+    overflow: auto;
+    background: var(--surface);
+    border-radius: 14px;
+    box-shadow: 0 28px 80px rgba(0, 0, 0, .35)
+}
+
+.modalHeader {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.modalBody {
+    padding: 24px
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px
+}
+
+.full {
+    grid-column: 1/-1
+}
+
+.acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 24px
+}
+
+.toast {
+    padding: 11px 14px;
+    background: var(--success-light);
+    color: var(--success);
+    border-radius: 7px;
+    font-weight: 600
+}
+
+.quantidade {
+    display: inline-flex;
+    min-width: 36px;
+    justify-content: center;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: #edf2e3;
+    font-weight: 750
+}
+
+.ajustes {
+    display: flex;
+    gap: 5px
+}
+
+.colunaAcoes {
+    text-align: center
+}
+
+.colunaAcoes .ajustes {
+    justify-content: center
+}
+
+.opcoesExportacao {
+    display: grid;
+    gap: 10px;
+    margin-top: 20px
+}
+
+.opcaoExportacao {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    cursor: pointer
+}
+
+.opcaoExportacao input {
+    width: 17px;
+    height: 17px;
+    accent-color: var(--primary)
+}
+
+.resumo {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px
+}
+
+.resumoItem {
+    min-height: 112px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 22px 24px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px
+}
+
+.resumoItem strong {
+    font-size: 24px
+}
+
+.resumoItem span {
+    color: var(--text-muted);
+    font-size: 12px
+}
+
+.listaAtencao {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px
+}
+
+.itemAtencao {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--warning);
+    border-radius: 10px;
+    box-shadow: var(--shadow-sm)
+}
+
+.itemAtencao h2 {
+    font-size: 15px;
+    margin: 3px 0
+}
+
+.itemAtencao p {
+    font-size: 12px;
+    color: var(--text-muted)
+}
+
+.codigoAtencao {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    color: var(--primary-text)
+}
+
+.saldoAtencao {
+    min-width: 62px;
+    text-align: center;
+    padding: 9px;
+    background: var(--warning-light);
+    color: var(--warning);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column
+}
+
+.saldoAtencao strong {
+    font-size: 22px;
+    line-height: 1
+}
+
+.saldoAtencao span {
+    font-size: 10px;
+    margin-top: 3px
+}
+
+@media(max-width:650px) {
+
+    .grid,
+    .resumo,
+    .listaAtencao {
+        grid-template-columns: 1fr
+    }
+
+    .full {
+        grid-column: auto
+    }
+}

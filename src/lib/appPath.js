@@ -1,1 +1,3 @@
-export const appBasePath = '/VIZATI-Gerenciamento';
+export const appBasePath = process.env.NODE_ENV === 'production'
+    ? '/VIZATI-Gerenciamento'
+    : '';

@@ -7,7 +7,6 @@ import styles from './Header.module.css';
 // H1 Nielsen: breadcrumb mostra onde o usuário está
 const BREADCRUMBS = {
   '/dashboard': [{ label: 'Visão geral' }],
-  '/equipamentos': [{ label: 'Equipamentos' }],
   '/estoque': [{ label: 'Controle de estoque' }],
   '/estoque/atencao': [{ label: 'Controle de estoque' }, { label: 'Itens em atenção' }],
   '/estoque/historico': [{ label: 'Controle de estoque' }, { label: 'Histórico de movimentações' }],

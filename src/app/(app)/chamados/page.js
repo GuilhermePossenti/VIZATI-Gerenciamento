@@ -1,14 +1,14 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { CHAMADOS_INICIAIS, LOJAS_INICIAIS, carregar, salvar } from '../../../services/inventoryStore';
+import { CHAMADOS_INICIAIS, EQUIPAMENTOS_INICIAIS, LOJAS_INICIAIS, carregar, salvar } from '../../../services/inventoryStore';
 import { useAuth } from '../../../context/AuthContext';
 import styles from '../Operations.module.css';
 
 const hoje = () => new Date().toISOString().split('T')[0];
 const formularioInicial = () => ({
   tecnico: '', cargo: '', descricao: '', loja: '',
-  prioridade: 'Média', status: 'Aberto', dataAbertura: hoje(),
+  prioridade: 'Média', status: 'Aberto', dataAbertura: hoje(), equipamentoId: '', quantidadeEquipamento: 1,
 });
 
 function normalizarCodigo(codigo) {
@@ -58,6 +58,7 @@ function podeReabrirChamado(usuario, chamado) {
 export default function Chamados() {
   const { user } = useAuth();
   const [lista, setLista] = useState(CHAMADOS_INICIAIS);
+  const [equipamentos, setEquipamentos] = useState(EQUIPAMENTOS_INICIAIS);
   const [lojas, setLojas] = useState(LOJAS_INICIAIS);
   const [form, setForm] = useState(formularioInicial());
   const [aberto, setAberto] = useState(false);
@@ -69,6 +70,7 @@ export default function Chamados() {
   const [filtroLoja, setFiltroLoja] = useState('');
   const [filtroPrioridade, setFiltroPrioridade] = useState('');
   const [msg, setMsg] = useState('');
+  const [erroFormulario, setErroFormulario] = useState('');
 
   useEffect(() => {
     const chamados = carregar('nexati_chamados', CHAMADOS_INICIAIS).map((chamado) => ({
@@ -78,6 +80,7 @@ export default function Chamados() {
     setLista(chamados);
     salvar('nexati_chamados', chamados);
     setLojas(carregar('vizati_lojas', LOJAS_INICIAIS));
+    setEquipamentos(carregar('nexati_equipamentos', EQUIPAMENTOS_INICIAIS));
   }, []);
   const lojasComChamados = useMemo(() => [...new Set(lista.map((chamado) => chamado.loja).filter(Boolean))].sort(), [lista]);
   const vistos = useMemo(() => lista.filter((chamado) => {
@@ -91,19 +94,55 @@ export default function Chamados() {
 
   const criar = (e) => {
     e.preventDefault();
+    const codigo = proximoCodigo(lista);
+    const quantidadeUtilizada = Number(form.quantidadeEquipamento);
+    const equipamentoSelecionado = equipamentos.find((item) => String(item.id) === form.equipamentoId);
+    if (form.equipamentoId && (!Number.isInteger(quantidadeUtilizada) || quantidadeUtilizada < 1)) {
+      setErroFormulario('Informe uma quantidade válida para o equipamento utilizado.');
+      return;
+    }
+    if (equipamentoSelecionado && quantidadeUtilizada > Number(equipamentoSelecionado.quantidade)) {
+      setErroFormulario(`O estoque de ${equipamentoSelecionado.nome} possui somente ${equipamentoSelecionado.quantidade} un.`);
+      return;
+    }
     const novo = {
       ...form,
       id: Date.now(),
-      codigo: proximoCodigo(lista),
+      codigo,
       data: formatarData(form.dataAbertura),
       dataConclusao: '',
+      equipamentoUtilizado: equipamentoSelecionado?.nome || '',
+      equipamentoCodigo: equipamentoSelecionado?.codigo || '',
+      quantidadeEquipamento: equipamentoSelecionado ? quantidadeUtilizada : 0,
     };
     const proximaLista = [novo, ...lista];
+    if (equipamentoSelecionado) {
+      const saldoAnterior = Number(equipamentoSelecionado.quantidade);
+      const saldoAtual = saldoAnterior - quantidadeUtilizada;
+      const proximaListaEquipamentos = equipamentos.map((item) => item.id === equipamentoSelecionado.id ? { ...item, quantidade: saldoAtual } : item);
+      const historico = carregar('vizati_movimentacoes', []);
+      const movimento = {
+        id: Date.now() + 1,
+        data: new Date().toLocaleString('pt-BR'),
+        equipamento: equipamentoSelecionado.nome,
+        codigo: equipamentoSelecionado.codigo,
+        tipo: 'Saída para chamado',
+        quantidade: quantidadeUtilizada,
+        saldoAnterior,
+        saldoAtual,
+        origem: `Chamado ${codigo} — ${form.loja}`,
+        usuario: user?.nome || form.tecnico,
+        cargo: user?.cargo || form.cargo,
+      };
+      setEquipamentos(proximaListaEquipamentos);
+      salvar('nexati_equipamentos', proximaListaEquipamentos);
+      salvar('vizati_movimentacoes', [movimento, ...historico]);
+    }
     setLista(proximaLista);
     salvar('nexati_chamados', proximaLista);
     setForm(formularioInicial());
     setAberto(false);
-    setMsg('Chamado aberto e registrado com sucesso.');
+    setMsg(equipamentoSelecionado ? `Chamado aberto e ${quantidadeUtilizada} un. de ${equipamentoSelecionado.nome} baixadas do estoque.` : 'Chamado aberto e registrado com sucesso.');
   };
 
   const solicitarConclusao = (chamado) => {
@@ -131,6 +170,7 @@ export default function Chamados() {
 
   const abrirNovoChamado = () => {
     setForm({ ...formularioInicial(), tecnico: user?.nome || '', cargo: user?.cargo || '' });
+    setErroFormulario('');
     setAberto(true);
   };
 
@@ -160,7 +200,7 @@ export default function Chamados() {
             <td><b>{chamado.codigo}</b></td>
             <td><span className="text-muted">Abertura:</span> <b>{formatarData(chamado.dataAbertura || chamado.data)}</b><br/>{chamado.dataConclusao && <><span className="text-muted">Conclusão:</span> <b>{formatarData(chamado.dataConclusao)}</b></>}</td>
             <td><b>{chamado.tecnico}</b><br/><span className="text-muted">{chamado.cargo}</span></td>
-            <td>{chamado.descricao}</td><td>{chamado.loja}</td>
+            <td>{chamado.descricao}{chamado.equipamentoUtilizado && <><br/><span className="text-muted">Material: {chamado.quantidadeEquipamento}x {chamado.equipamentoUtilizado}</span></>}</td><td>{chamado.loja}</td>
             <td><span className={`badge ${chamado.prioridade === 'Alta' ? 'badge-risco' : 'badge-atencao'}`}>{chamado.prioridade}</span></td>
             <td><span className="badge badge-primary">{chamado.status}</span></td>
             <td>{chamado.status !== 'Concluído' ? <button className="btn btn-ghost btn-sm" onClick={() => solicitarConclusao(chamado)}>Concluir</button> : podeReabrirChamado(user, chamado) && <button className="btn btn-secondary btn-sm" onClick={() => reabrir(chamado)}>Reabrir</button>}</td>
@@ -176,7 +216,10 @@ export default function Chamados() {
           <label className="form-group"><span className="form-label">Loja de destino</span><select required className="form-control" value={form.loja} onChange={(e) => setForm({...form, loja:e.target.value})}><option value="" disabled>Selecione a loja</option>{lojas.map((loja) => <option key={loja.id} value={`${loja.codigo} - ${loja.nome}`}>{loja.codigo} - {loja.nome}</option>)}</select></label>
           <Campo label="Data de abertura" type="date" value={form.dataAbertura} set={(v) => setForm({...form, dataAbertura:v})}/>
           <label className="form-group"><span className="form-label">Prioridade</span><select className="form-control" value={form.prioridade} onChange={(e) => setForm({...form, prioridade:e.target.value})}><option>Baixa</option><option>Média</option><option>Alta</option></select></label>
+          <label className="form-group"><span className="form-label">Equipamento utilizado (opcional)</span><select className="form-control" value={form.equipamentoId} onChange={(e) => setForm({...form, equipamentoId:e.target.value})}><option value="">Nenhum equipamento</option>{equipamentos.map((item) => <option key={item.id} value={item.id} disabled={Number(item.quantidade) === 0}>{item.codigo} — {item.nome} ({item.quantidade} un.)</option>)}</select></label>
+          <Campo label="Quantidade utilizada" type="number" value={form.quantidadeEquipamento} set={(v) => setForm({...form, quantidadeEquipamento:v})} opcional={!form.equipamentoId}/>
           <label className={`form-group ${styles.full}`}><span className="form-label">Descrição do serviço</span><textarea required rows="4" className="form-control" value={form.descricao} onChange={(e) => setForm({...form, descricao:e.target.value})}/></label>
+          {erroFormulario && <p className={`${styles.full} text-danger`}>{erroFormulario}</p>}
           <div className={`${styles.acoes} ${styles.full}`}><button type="button" className="btn btn-secondary" onClick={() => setAberto(false)}>Cancelar</button><button className="btn btn-primary">Abrir chamado</button></div>
         </form>
       </Modal>}

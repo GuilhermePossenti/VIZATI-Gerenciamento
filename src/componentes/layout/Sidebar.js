@@ -3,13 +3,12 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Boxes, FileChartColumn, LayoutDashboard, LogOut, MapPinPlus, MonitorCog, TicketCheck, UsersRound } from 'lucide-react';
+import { Boxes, FileChartColumn, LayoutDashboard, LogOut, MapPinPlus, TicketCheck, UsersRound } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { appBasePath } from '../../lib/appPath';
 
 const NAV = [
   { href: '/dashboard', label: 'Visão geral', Icon: LayoutDashboard },
-  { href: '/equipamentos', label: 'Equipamentos', Icon: MonitorCog },
   { href: '/estoque', label: 'Controle de estoque', Icon: Boxes },
   { href: '/chamados', label: 'Chamados', Icon: TicketCheck },
 ];
