@@ -4,6 +4,8 @@ node_modules/
 # Next.js
 .next/
 .next-build/
+.next-build-tailwind-114109/
+.next-stale-codex/
 out/
 .turbo/
 next-env.d.ts
