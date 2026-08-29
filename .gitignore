@@ -9,6 +9,10 @@ node_modules/
 out/
 .turbo/
 next-env.d.ts
+.next/
+.next-build/
+.next-build-*/
+.next-stale-*/
 
 # Cache local de ferramentas e pacotes
 .npm-cache/
